@@ -1,0 +1,1 @@
+DROP TAbLE periods;
