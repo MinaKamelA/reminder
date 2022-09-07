@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 import client from '../database'
 
+// create EventStore to consume events table from database
 class EventStore {
+  // get all events
   index = async (): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect()
@@ -14,6 +16,7 @@ class EventStore {
     }
   }
 
+  // get single event
   show = async (id: string): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect()
@@ -26,6 +29,7 @@ class EventStore {
     }
   }
 
+  // create new event
   create = async (event: UserEvent): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect()
@@ -38,6 +42,7 @@ class EventStore {
     }
   }
 
+  // delete an event
   delete = async (id: string): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect()
@@ -50,6 +55,7 @@ class EventStore {
     }
   }
 
+  // update an event
   edit = async (event: UserEvent): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect()
@@ -62,6 +68,7 @@ class EventStore {
     }
   }
 
+  // get events of a specific user
   eventsByUser = async (userId: string): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect()
