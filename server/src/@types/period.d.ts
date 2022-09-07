@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/consistent-type-definitions */
-declare type period = {
+declare type Period = {
   id?: number
   interval: string
   every: number
