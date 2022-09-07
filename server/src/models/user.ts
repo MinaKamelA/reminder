@@ -3,13 +3,16 @@ import dotenv from 'dotenv'
 import bcrypt from 'bcrypt'
 import client from '../database'
 
+// getting env variables
 dotenv.config()
 const {
   BCRYPT_PASSWORD,
   SALT_ROUND
 } = process.env
 
+// create UserStore to consume users table from database
 class UserStore {
+  // get all users
   index = async (): Promise <User[]> => {
     try {
       const conn = await client.connect()
@@ -22,6 +25,7 @@ class UserStore {
     }
   }
 
+  // get single user
   show = async (id: string): Promise <User[]> => {
     try {
       const conn = await client.connect()
@@ -34,6 +38,7 @@ class UserStore {
     }
   }
 
+  // create new user
   create = async (user: User): Promise <User[]> => {
     try {
       const conn = await client.connect()
@@ -47,6 +52,7 @@ class UserStore {
     }
   }
 
+  // delete an user
   delete = async (id: string): Promise <User[]> => {
     try {
       const conn = await client.connect()
@@ -59,6 +65,7 @@ class UserStore {
     }
   }
 
+  // update an user
   edit = async (user: User): Promise <User[]> => {
     try {
       const conn = await client.connect()
