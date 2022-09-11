@@ -4,4 +4,4 @@ declare type UserEvent = {
   event_name: string
   event_description: string
   user: number
-}
+};

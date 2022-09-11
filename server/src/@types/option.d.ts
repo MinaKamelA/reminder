@@ -5,4 +5,4 @@ declare type Option = {
   option_description: string
   periodic: boolean
   event: number
-}
+};

@@ -4,4 +4,4 @@ declare type Period = {
   interval: string
   every: number
   option: number
-}
+};
