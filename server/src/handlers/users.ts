@@ -67,6 +67,10 @@ const destroy = async (req: express.Request, res: express.Response): Promise<voi
 
 const edit = async (req: express.Request, res: express.Response): Promise<void> => {
   try {
+    if (req.userId !== req.params.id) {
+      res.status(403);
+      res.json('You don\'t have permission to perform this action (Unauthorized)');
+    }
     const user: User = {
       id: req.body.id,
       first_name: req.body.first_name,
