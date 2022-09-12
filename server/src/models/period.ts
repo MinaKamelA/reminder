@@ -69,7 +69,7 @@ class PeriodStore {
   };
 
   // get periods of a specific option
-  periodsByUser = async (optionId: string): Promise <Period[]> => {
+  periodsByOption = async (optionId: string): Promise <Period[]> => {
     try {
       const conn = await client.connect();
       const query = 'SELECT * FROM periods WHERE option = $1';
