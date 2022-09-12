@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/no-misused-promises */
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import UserStore from '../models/user';
-import verifyToken from '../services/verifyToken';
+import validator from 'validator';
 
 const store = new UserStore();
-const users = express.Router();
 
-const index = async (req: express.Request, res: express.Response): Promise<void> => {
+const index = async (_req: express.Request, res: express.Response): Promise<void> => {
   try {
     const result = await store.index();
     res.json(result);
@@ -35,15 +33,22 @@ const create = async (req: express.Request, res: express.Response): Promise<void
       email: req.body.email,
       password: req.body.password
     };
-    const result = await store.create(user);
-    const token = jwt.sign({ user: result }, process.env.TOKEN_SECRET as string);
-    res.cookie('RCA', token, {
-      maxAge: 5000,
-      secure: true,
-      sameSite: 'lax',
-      httpOnly: true
-    });
-    res.json(result);
+    if (validator.isEmail(user.email)) {
+      const result = await store.create(user);
+      const token = jwt.sign({ user: result }, process.env.TOKEN_SECRET as string);
+      res.cookie('RCA', token, {
+        maxAge: 5000,
+        secure: true,
+        sameSite: 'lax',
+        httpOnly: true
+      });
+      res.json(result);
+    } else {
+      const err = new Error();
+      err.name = 'password';
+      err.message = 'This email is not valid, please enter a valid email.';
+      throw err;
+    }
   } catch (error) {
     res.status(400);
     res.json(error);
@@ -77,10 +82,4 @@ const edit = async (req: express.Request, res: express.Response): Promise<void> 
   }
 };
 
-users.get('/', verifyToken, index);
-users.get('/:id', verifyToken, show);
-users.post('/', create);
-users.delete('/:id', verifyToken, destroy);
-users.put('/', verifyToken, edit);
-
-export default users;
+export { index, show, create, destroy, edit };
