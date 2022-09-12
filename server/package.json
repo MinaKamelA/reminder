@@ -19,7 +19,6 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
-    "body-parser": "^1.20.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
@@ -29,11 +28,11 @@
     "jasmine-spec-reporter": "^7.0.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0",
-    "supertest": "^6.2.4"
+    "supertest": "^6.2.4",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
-    "@types/body-parser": "^1.19.2",
     "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
@@ -48,6 +47,7 @@
     "@types/pg": "^8.6.5",
     "@types/prettier": "^2.7.0",
     "@types/supertest": "^2.0.12",
+    "@types/validator": "^13.7.6",
     "@typescript-eslint/eslint-plugin": "^5.36.2",
     "db-migrate": "^0.11.13",
     "eslint": "^8.23.0",
