@@ -78,6 +78,36 @@ class UserStore {
       throw new Error(`Cannot update user (Error: ${error})`);
     }
   };
+
+  // login an user
+  login = async (email: string, password: string): Promise <object> => {
+    try {
+      const conn = await client.connect();
+      const query = 'SELECT id, password FROM users WHERE email = $1';
+      const result = await conn.query(query, [email]);
+      if (result.rows !== null) {
+        const good = await bcrypt.compare(result.rows[1], password);
+        if (good) {
+          return {
+            id: result.rows[0],
+            email
+          };
+        } else {
+          const err = new Error();
+          err.name = 'password';
+          err.message = 'Wrong password, please insert correct password.';
+          throw err;
+        }
+      } else {
+        const err = new Error();
+        err.name = 'email';
+        err.message = 'This email is not registered.';
+        throw err;
+      }
+    } catch (error) {
+      throw new Error('Wrong email or password');
+    }
+  };
 }
 
 export default UserStore;
