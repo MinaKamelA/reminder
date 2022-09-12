@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import express from 'express';
+import { Router } from 'express';
 import * as controller from '../handlers/users';
 import verifyToken from '../services/verifyToken';
 import { userEvents } from '../handlers/events';
 
-const users = express.Router();
+const users = Router();
 
 users.get('/', verifyToken, controller.index);
 users.get('/:id', verifyToken, controller.show);
