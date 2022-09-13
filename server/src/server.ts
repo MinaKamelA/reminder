@@ -3,6 +3,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
+import users from './routes/users';
+import events from './routes/events';
+import options from './routes/options';
+import periods from './routes/periods';
 
 // getting env variables
 dotenv.config();
@@ -21,6 +25,11 @@ app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
   console.log(`Please visit ${URL as string} to run your app`);
 });
+// routes
+app.use('/users', users);
+app.use('/events', events);
+app.use('/options', options);
+app.use('/periods', periods);
 
 app.get('/', (req, res) => {
   res.send('Hello world');
