@@ -29,7 +29,7 @@ class UserStore {
   show = async (id: string): Promise <User[]> => {
     try {
       const conn = await client.connect();
-      const query = 'SELECT FROM users WHERE id = $1';
+      const query = 'SELECT * FROM users WHERE id = $1';
       const result = await conn.query(query, [id]);
       conn.release();
       return result.rows;
@@ -85,11 +85,11 @@ class UserStore {
       const conn = await client.connect();
       const query = 'SELECT id, password FROM users WHERE email = $1';
       const result = await conn.query(query, [email]);
-      if (result.rows !== null) {
-        const good = await bcrypt.compare(result.rows[1], password);
+      if (result.rows[0] !== undefined) {
+        const good = await bcrypt.compare(password + (BCRYPT_PASSWORD as string), result.rows[0].password);
         if (good) {
           return {
-            id: result.rows[0],
+            id: result.rows[0].id,
             email
           };
         } else {
@@ -105,7 +105,7 @@ class UserStore {
         throw err;
       }
     } catch (error) {
-      throw new Error('Wrong email or password');
+      throw new Error('Couldn\'t fetch user data.');
     }
   };
 }
