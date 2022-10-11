@@ -1,7 +1,7 @@
 import UserStore from '../../models/user';
 
 const store = new UserStore();
-
+let userId: number = -1;
 describe('User model', () => {
   describe('Structural tests', () => {
     it('should have index', () => {
@@ -32,19 +32,20 @@ describe('User model', () => {
         password: 'test'
       };
       const result = await store.create(user);
+      userId = result[0].id as number;
       expect(result[0].first_name).toEqual('Test');
     });
     it('should display all users', async () => {
       const result = await store.index();
       expect(result[0].first_name).toEqual('Test');
     });
-    it('should display user with id=1', async () => {
-      const result = await store.show('1');
+    it('should display user with id', async () => {
+      const result = await store.show(userId.toString());
       expect(result[0].first_name).toEqual('Test');
     });
-    it('should edit user with id=1', async () => {
+    it('should edit user with id', async () => {
       const user = {
-        id: 1,
+        id: userId,
         first_name: 'Testnew',
         last_name: 'User',
         email: 'm@server.com',
@@ -55,13 +56,13 @@ describe('User model', () => {
     });
     it('should login user with correct Credentials', async () => {
       const result = await store.login('m@server.com', 'test');
-      expect(result).toEqual({ id: 1, email: 'm@server.com' });
+      expect(result).toEqual({ id: userId, email: 'm@server.com' });
     });
     it('should throw error when login with incorrect Credentials', async () => {
       await expectAsync(store.login('m', 'test')).toBeRejectedWithError();
     });
-    it('should delete user with id=1', async () => {
-      const result = await store.delete('1');
+    it('should delete user with id', async () => {
+      const result = await store.delete(userId.toString());
       expect(result[0].first_name).toEqual('Testnew');
     });
   });

@@ -3,6 +3,7 @@ import UserStore from '../../models/user';
 
 const store = new EventStore();
 let userId: number = -1;
+let eventId: number = -1;
 
 describe('Event model', () => {
   describe('Structural tests', () => {
@@ -39,7 +40,7 @@ describe('Event model', () => {
     });
     afterAll(async () => {
       const userStore = new UserStore();
-      await userStore.delete('1');
+      await userStore.delete(userId.toString());
     });
     it('should add event when call create', async () => {
       const event = {
@@ -48,19 +49,20 @@ describe('Event model', () => {
         user: userId
       };
       const result = await store.create(event);
+      eventId = result[0].id as number;
       expect(result[0].event_name).toEqual('Test');
     });
     it('should display all events', async () => {
       const result = await store.index();
       expect(result[0].event_name).toEqual('Test');
     });
-    it('should display event with id=1', async () => {
-      const result = await store.show('1');
+    it('should display event with id', async () => {
+      const result = await store.show(eventId.toString());
       expect(result[0].event_name).toEqual('Test');
     });
-    it('should edit event with id=1', async () => {
+    it('should edit event with id', async () => {
       const event = {
-        id: 1,
+        id: eventId,
         event_name: 'Testnew',
         event_description: 'description',
         user: userId
@@ -68,12 +70,12 @@ describe('Event model', () => {
       const result = await store.edit(event);
       expect(result[0].event_name).toEqual('Testnew');
     });
-    it('should get event with id=1 by user', async () => {
+    it('should get event by user', async () => {
       const result = await store.eventsByUser(userId.toString());
-      expect(result[0].id).toEqual(1);
+      expect(result[0].id).toEqual(eventId);
     });
-    it('should delete event with id=1', async () => {
-      const result = await store.delete('1');
+    it('should delete event with id', async () => {
+      const result = await store.delete(eventId.toString());
       expect(result[0].event_name).toEqual('Testnew');
     });
   });
