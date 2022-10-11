@@ -33,7 +33,7 @@ class EventStore {
   create = async (event: UserEvent): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect();
-      const query = 'INSERT INTO events (event_name, event_description, user) VALUES ($1, $2, $3) RETURNING *';
+      const query = 'INSERT INTO events (event_name, event_description, "user") VALUES ($1, $2, $3) RETURNING *';
       const result = await conn.query(query, [event.event_name, event.event_description, event.user]);
       conn.release();
       return result.rows;
@@ -59,7 +59,7 @@ class EventStore {
   edit = async (event: UserEvent): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect();
-      const query = 'UPDATE events SET event_name = $1, event_description = $2, user = $3 WHERE id = $4 RETURNING *';
+      const query = 'UPDATE events SET event_name = $1, event_description = $2, "user" = $3 WHERE id = $4 RETURNING *';
       const result = await conn.query(query, [event.event_name, event.event_description, event.user, event.id]);
       conn.release();
       return result.rows;
@@ -72,7 +72,7 @@ class EventStore {
   eventsByUser = async (userId: string): Promise <UserEvent[]> => {
     try {
       const conn = await client.connect();
-      const query = 'SELECT * FROM events WHERE user = $1';
+      const query = 'SELECT * FROM events WHERE "user" = $1';
       const result = await conn.query(query, [userId]);
       conn.release();
       return result.rows;
