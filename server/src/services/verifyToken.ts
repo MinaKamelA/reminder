@@ -11,8 +11,7 @@ const {
 
 const verifyToken = (req: express.Request, res: express.Response, next: express.NextFunction): void => {
   try {
-    const authHeader = (req.headers.authorization) as string;
-    const token = authHeader.split(' ')[1];
+    const token = req.cookies.RCA;
     const decode = jwt.verify(token, TOKEN_SECRET as string) as jwt.JwtPayload;
     req.userId = decode.user[0].id.toString();
     next();
