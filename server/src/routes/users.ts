@@ -10,7 +10,7 @@ users.get('/', verifyToken, controller.index);
 users.get('/:id', verifyToken, controller.show);
 users.post('/', controller.create);
 users.delete('/:id', verifyToken, controller.destroy);
-users.put('/', verifyToken, controller.edit);
+users.put('/:id', verifyToken, controller.edit);
 // get user's events
 users.get('/:id/events', verifyToken, userEvents);
 
